@@ -1,0 +1,151 @@
+class Pet:
+    
+    kind = "animal"
+    color = "ginger"
+
+    speak_script = "{name} says {sound}"
+    str_script = "I am a {kind} named {name}"
+
+    def __init__(self, name):
+        
+        self.name = name
+
+    def do_tricks(self):
+        
+        print("{name} is doing tricks".format(name=self.name))
+
+        
+        self.speak()
+
+        
+        self.jump()
+
+    def speak(self):
+        pass
+
+    def jump(self):
+        pass
+
+
+class Jumper:
+    'This is a mixin class for jump'
+
+    def jump(self):
+        
+        print("{name} is jumping".format(name=self.name))
+
+
+class Dog(Jumper, Pet):  
+
+    
+    kind = "canine"
+    owner = "Kamilla"
+
+    def __str__(self):
+        
+        return ("I am a {kind} named {name}".format(name=self.name, kind=self.kind))
+
+    def __call__(self, action):
+        if action == "rollover":
+            
+            print("{name} is rolling over".format(name=self.name))
+        elif action == "owner":
+            
+            print("The owner is: " + self.owner)
+
+
+class BigDog(Dog):  
+
+    
+    color = "ginger"
+
+    owner = "Kamilla"
+
+    spoken_sound = "WOOF!"
+
+    def __str__(self):
+        
+        return ("I am a big sheeba breed {kind} named {name}".format(name=self.name, kind=self.kind))
+
+    def speak(self):
+       
+        print(self.speak_script.format(name=self.name, sound=self.spoken_sound))
+
+
+class SmallDog(Dog):  
+    spoken_sound = "Yip!"
+
+    owner = "Kamilla"
+
+   
+    color = "brindle"
+
+    def __str__(self):
+        
+        return ("I am a {kind} named {name}".format(name=self.name, kind=self.kind))
+
+    def speak(self):
+        
+        print(self.speak_script.format(name=self.name, sound=self.spoken_sound))
+
+
+class Cat(Jumper,Pet):  
+
+    spoken_sound = "Meow"
+
+    
+    kind = "feline"
+
+    def __str__(self):
+        
+        return ("I am a {kind} named {name}".format(name=self.name, kind=self.kind))
+
+    def speak(self):
+        
+        print(self.speak_script.format(name=self.name, sound=self.spoken_sound))
+
+    def climb(self):
+        
+        print("{name} is climbing".format(name=self.name))
+
+
+class HouseCat(Cat):  
+    spoken_sound = "Purr"
+
+   
+    color = "white"
+
+    def __str__(self):
+       
+        return ("I am an angora breed {kind} named {name} with fluffy, white fur".format(name=self.name, kind=self.kind))
+
+    def speak(self):
+    
+        print(self.speak_script.format(name=self.name, sound=self.spoken_sound))
+
+
+
+def main():
+    pet = Pet("Animal")
+    dog = Dog("Sharik")
+    big_dog = BigDog("Mamoru")
+    small_dog = SmallDog("Belka")
+    cat = Cat("Garfield")
+    house_cat = HouseCat("Bouni")
+
+    pets = [pet, dog, big_dog, small_dog, cat, house_cat]
+
+    for pet in pets:
+        print(pet.__str__())
+        print(pet.kind)
+        print(pet.color)
+        pet.do_tricks()
+        if callable(pet):  
+            pet("rollover")
+            pet("owner")
+        if "climb()" in dir(pet):  
+            pet.climb()
+        print("________________________")
+
+
+main()
